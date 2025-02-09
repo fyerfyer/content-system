@@ -66,7 +66,7 @@ func (c IdxContentDetail) TableName() string {
 
 func getContentDetailsTable(contentID string) string {
 	tableIndex := getContentTableIndex(contentID)
-	table := fmt.Sprintf("cms_content.t_content_details_%d", tableIndex)
+	table := fmt.Sprintf("cms_content.content_details_%d", tableIndex)
 	log.Infof("content_id = %s, table = %s", contentID, table)
 	return table
 }
