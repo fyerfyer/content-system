@@ -42,7 +42,7 @@ func (c *ContentDao) UpdateByID(contentID string, column string, value interface
 
 func getContentDetailsTable(contentID string) string {
 	tableIndex := getContentTableIndex(contentID)
-	table := fmt.Sprintf("cms_content.t_content_details_%d", tableIndex)
+	table := fmt.Sprintf("cms_content.content_details_%d", tableIndex)
 	log.Printf("content_id = %s, table = %s \n", contentID, table)
 	return table
 }

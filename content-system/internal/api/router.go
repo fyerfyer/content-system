@@ -13,6 +13,7 @@ const (
 func NewRouters(r *gin.Engine) {
 	app := service.NewCmsApp()
 	session := NewSessionAuth()
+	r.Use(prometheusMiddleware())
 	// 逻辑路由
 	root := r.Group(rootPath).Use(session.Auth)
 	{
