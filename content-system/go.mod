@@ -7,6 +7,10 @@ require (
 	github.com/go-kratos/kratos/contrib/registry/etcd/v2 v2.0.0-20250127095200-20970020a5ef
 	github.com/go-kratos/kratos/v2 v2.8.3
 	github.com/google/uuid v1.6.0
+	github.com/opentracing-contrib/go-gin v0.0.0-20241203023905-a5650667207a
+	github.com/opentracing/opentracing-go v1.2.0
+	github.com/openzipkin-contrib/zipkin-go-opentracing v0.5.0
+	github.com/openzipkin/zipkin-go v0.4.3
 	github.com/prometheus/client_golang v1.11.1
 	github.com/redis/go-redis/v9 v9.7.0
 	go.etcd.io/etcd/client/v3 v3.5.18
@@ -15,6 +19,7 @@ require (
 	google.golang.org/protobuf v1.35.2
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.12
+	gorm.io/plugin/opentracing v0.0.0-20211220013347-7d2b2af23560
 )
 
 require (
@@ -43,12 +48,12 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
-	github.com/kr/text v0.2.0 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
+	github.com/opentracing-contrib/go-observer v0.0.0-20170622124052-a52f23424492 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.26.0 // indirect

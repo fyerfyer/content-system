@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/opentracing/opentracing-go"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"time"
@@ -24,11 +25,13 @@ type LoginRsp struct {
 }
 
 func (c *CmsApp) Login(ctx *gin.Context) {
+	span := opentracing.SpanFromContext(ctx.Request.Context())
 	var req LoginReq
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	span.SetTag("req", req)
 	var (
 		userID   = req.UserID
 		password = req.Password
@@ -64,7 +67,10 @@ func (c *CmsApp) Login(ctx *gin.Context) {
 }
 
 func (c *CmsApp) generateSessionID(ctx context.Context, userID string) (string, error) {
+	span, _ := opentracing.StartSpanFromContext(ctx, "generateSessionID")
+	defer span.Finish()
 	sessionID := uuid.New().String()
+	// key : session_id:{user_id} val : session_id  20s
 	sessionKey := utils.GetSessionKey(userID)
 	err := c.rdb.Set(ctx, sessionKey, sessionID, time.Hour*8).Err()
 	if err != nil {

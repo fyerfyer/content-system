@@ -14,6 +14,7 @@ func NewRouters(r *gin.Engine) {
 	app := service.NewCmsApp()
 	session := NewSessionAuth()
 	r.Use(prometheusMiddleware())
+	r.Use(opentracingMiddleware())
 	// 逻辑路由
 	root := r.Group(rootPath).Use(session.Auth)
 	{

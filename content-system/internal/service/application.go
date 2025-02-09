@@ -6,8 +6,15 @@ import (
 	"github.com/go-kratos/kratos/contrib/registry/etcd/v2"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
+	"github.com/opentracing/opentracing-go"
+	zipkinot "github.com/openzipkin-contrib/zipkin-go-opentracing"
+	"github.com/openzipkin/zipkin-go"
+	reporter "github.com/openzipkin/zipkin-go/reporter/http"
 	"github.com/redis/go-redis/v9"
 	clientv3 "go.etcd.io/etcd/client/v3"
+	gormopentracing "gorm.io/plugin/opentracing"
+
+	//goflow "github.com/s8sg/goflow/v1"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -36,6 +43,24 @@ func connDB(app *CmsApp) {
 	}
 	db.SetMaxOpenConns(4)
 	db.SetMaxIdleConns(2)
+	report := reporter.NewReporter("http://localhost:9411/api/v2/spans")
+	endpoint, err := zipkin.NewEndpoint("content-system", "localhost:80")
+	if err != nil {
+		panic(err)
+	}
+	tracer, err := zipkin.NewTracer(report,
+		zipkin.WithTraceID128Bit(true),
+		zipkin.WithLocalEndpoint(endpoint))
+	if err != nil {
+		panic(err)
+	}
+
+	zipkinTracer := zipkinot.Wrap(tracer)
+	opentracing.SetGlobalTracer(zipkinTracer)
+	err = mysqlDB.Use(gormopentracing.New(gormopentracing.WithTracer(zipkinTracer)))
+	if err != nil {
+		panic(err)
+	}
 	app.db = mysqlDB
 }
 
