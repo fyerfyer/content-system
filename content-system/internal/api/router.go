@@ -29,6 +29,8 @@ func NewRouters(r *gin.Engine) {
 		root.POST("/cms/content/delete", app.ContentDelete)
 		// /api/cms/find
 		root.POST("/cms/content/find", app.ContentFind)
+		// /api/cms/logout
+		root.POST("/cms/logout", app.Logout)
 	}
 	noAuth := r.Group(noAuthPath)
 	{
