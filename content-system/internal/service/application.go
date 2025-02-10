@@ -33,7 +33,7 @@ func NewCmsApp() *CmsApp {
 }
 
 func connDB(app *CmsApp) {
-	mysqlDB, err := gorm.Open(mysql.Open("root:123456789@tcp(ro)/?charset=utf8mb4&parseTime=True&loc=Local"))
+	mysqlDB, err := gorm.Open(mysql.Open("root:@tcp(localhost:3306)/?charset=utf8mb4&parseTime=True&loc=Local"))
 	if err != nil {
 		panic(err)
 	}

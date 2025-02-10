@@ -3,6 +3,7 @@ package api
 import (
 	"content-system/internal/service"
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 const (
@@ -36,4 +37,6 @@ func NewRouters(r *gin.Engine) {
 		// /out/api/cms/login
 		noAuth.POST("/cms/login", app.Login)
 	}
+
+	r.GET("metrics", gin.WrapH(promhttp.Handler()))
 }
